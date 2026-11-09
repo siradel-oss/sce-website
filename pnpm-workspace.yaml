@@ -1,0 +1,5 @@
+# preferSymlinkedExecutables: Hugo's css.TailwindCSS refuses pnpm's shell-script
+# shims in node_modules/.bin — it requires a real Node script.
+allowBuilds:
+  "@parcel/watcher": true
+preferSymlinkedExecutables: true

@@ -1,0 +1,18 @@
+@import "tailwindcss";
+@source "hugo_stats.json";
+@source "../layouts/**/*.html";
+@source "../content/**/*.md";
+@source "../content/**/*.html";
+
+@import "./design-system/index.css";
+
+@import "./components/header.css";
+@import "./components/footer.css";
+@import "./components/sections.css";
+@import "./components/feature-card.css";
+@import "./components/usecase-card.css";
+@import "./components/highlight-bloc.css";
+@import "./components/tag.css";
+@import "./components/callout.css";
+
+@import "./components/ecosystem-flow.css";

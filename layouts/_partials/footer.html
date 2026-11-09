@@ -1,0 +1,35 @@
+<footer class="footer relative bg-inverse-surface py-xl">
+  <div
+    class="max-w-360 mx-auto px-3xl lg:px-11xl flex flex-col md:flex-row gap-md md:items-center md:justify-between"
+  >
+    <div class="flex items-center gap-lg">
+      <a href="https://siradel.com" class="shrink-0">
+        <img
+          src="{{ (resources.Get "images/logo-siradel.svg").RelPermalink }}"
+          alt="Siradel"
+          width="713"
+          height="134"
+          class="h-3.5 w-auto"
+        />
+      </a>
+      <p class="text-on-primary text-body-sm">
+        {{ $currentYear := now.Format "2006" }}
+        Copyright
+        {{ if (eq $currentYear "2026") -}}
+          2026
+        {{- else -}}
+          2026-{{ $currentYear }}
+        {{- end }}
+      </p>
+    </div>
+    <ul class="flex flex-wrap gap-2xl text-on-primary text-body-sm">
+      <li><a href="{{ .Site.Params.github_org }}">GitHub</a></li>
+      <li>
+        <a href="mailto:{{ .Site.Params.contact_email }}"
+          >{{ .Site.Params.contact_email }}</a
+        >
+      </li>
+      <li><a href="https://www.siradel.com">siradel.com</a></li>
+    </ul>
+  </div>
+</footer>

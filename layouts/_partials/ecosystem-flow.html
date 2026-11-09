@@ -1,0 +1,100 @@
+{{/* The possible SCE assemblies, one row per need.
+  Params:
+  scenarios — slice of {name, icon, input, families (slice of family keys),
+  adds (optional family key), output, desc}
+  families  — map of family key -> {slot, label, visual}, built from
+  ecosystem.categories so a family is worded in exactly one place.
+  A family keeps its slot (1-4) in every row; --skip counts the empty slots the
+  arrow into it has to cross. Each row adds one family to the previous one; the
+  added family is outlined and prefixed with a screen-reader-only label, so the
+  increment does not rely on colour alone.
+*/}}
+<ol class="flow-list" role="list">
+  {{ range $i, $sc := .scenarios }}
+    {{ $id := printf "flow-scenario-%d" (add $i 1) }}
+    <li class="flow-scenario">
+      <div class="flow-need">
+        <span aria-hidden="true" class="flow-need__num"
+          >{{ printf "%02d" (add $i 1) }}</span
+        >
+        <div class="flow-need__text">
+          <h3 id="{{ $id }}" class="flow-need__name">{{ $sc.name }}</h3>
+          <p class="flow-need__desc">{{ $sc.desc | safeHTML }}</p>
+        </div>
+      </div>
+
+      <div class="flow-route" role="group" aria-labelledby="{{ $id }}">
+        <div class="flow-source">
+          <img
+            src="{{ (resources.Get (printf "images/%s.svg" $sc.icon)).RelPermalink }}"
+            alt=""
+            class="size-11"
+          />
+          <p class="flow-source__text">{{ $sc.input }}</p>
+        </div>
+
+        <ol class="flow-chain" role="list" aria-labelledby="{{ $id }}">
+          {{ $prev := 0 }}
+          {{ range $key := $sc.families }}
+            {{ $family := index $.families $key }}
+            {{ $isNew := and $sc.adds (eq $key $sc.adds) }}
+            <li
+              class="flow-chain__item {{ if eq $prev 0 }}
+                flow-chain__item--first
+              {{ end }}"
+              style="--slot: {{ $family.slot }}; --skip: {{ sub $family.slot $prev 1 }}"
+            >
+              <span aria-hidden="true" class="flow-link">
+                <img
+                  src="{{ (resources.Get "images/icon-flow-direction.svg").RelPermalink }}"
+                  alt=""
+                  class="flow-link__arrow"
+                />
+              </span>
+              <div class="flow-node {{ if $isNew }}flow-node--new{{ end }}">
+                <span
+                  class="flow-node__visual {{ if $family.photo }}
+                    flow-node__visual--photo
+                  {{ end }}"
+                >
+                  {{ with $family.visual }}
+                    {{ if $family.photo }}
+                      {{ $photo := (resources.Get (printf "images/%s" .)).Resize "232x webp q80" }}
+                      <img
+                        src="{{ $photo.RelPermalink }}"
+                        alt=""
+                        width="{{ $photo.Width }}"
+                        height="{{ $photo.Height }}"
+                        class="size-full rounded-xs object-cover"
+                      />
+                    {{ else }}
+                      <img
+                        src="{{ (resources.Get (printf "images/%s" .)).RelPermalink }}"
+                        alt=""
+                      />
+                    {{ end }}
+                  {{ end }}
+                </span>
+                <span class="flow-node__label">
+                  {{ if $isNew }}
+                    <span class="sr-only">{{ T "flow_adds" }} </span>
+                  {{ end }}
+                  {{ $family.label }}
+                </span>
+              </div>
+            </li>
+            {{ $prev = $family.slot }}
+          {{ end }}
+        </ol>
+
+        <p class="flow-outcome">
+          <img
+            src="{{ (resources.Get "images/icon-corner-down-right.svg").RelPermalink }}"
+            alt=""
+          />
+          <span>{{ $sc.output }}</span>
+        </p>
+      </div>
+    </li>
+  {{ end }}
+</ol>

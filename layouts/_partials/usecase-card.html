@@ -1,0 +1,23 @@
+<article class="usecase-card flex gap-sm items-start p-2xl rounded-md">
+  <div class="flex flex-col gap-sm flex-1">
+    {{ with .number }}
+      <p
+        aria-hidden="true"
+        class="font-black text-blue-400 text-heading-h3 tracking-tight"
+      >
+        {{ . }}
+      </p>
+    {{ end }}
+    <h3 class="font-bold text-balance text-heading-h6 tracking-tight">
+      {{ .title }}
+    </h3>
+    <p class="text-pretty text-body-lg tracking-tight max-w-[75ch]">
+      {{ .text }}
+    </p>
+  </div>
+  <img
+    src="{{ .icon }}"
+    alt=""
+    class="w-28.5 h-28.5 opacity-40 shrink-0 hidden lg:block"
+  />
+</article>

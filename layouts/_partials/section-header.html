@@ -1,0 +1,19 @@
+{{/* Shared section heading: eyebrow + title + lead. */}}
+<header class="flex flex-col items-center gap-md text-center">
+  {{ with .eyebrow }}
+    <p class="text-secondary text-body-sm font-bold uppercase">
+      {{ . }}
+    </p>
+  {{ end }}
+  <h2
+    {{ with .headingId }}id="{{ . }}"{{ end }}
+    class="font-black text-balance tracking-tight text-heading-h2-mobile sm:text-heading-h2-tablet lg:text-heading-h2"
+  >
+    {{ .title | safeHTML }}
+  </h2>
+  {{ with .lead }}
+    <p class="text-body-md sm:text-body-lg tracking-tight">
+      {{ . | safeHTML }}
+    </p>
+  {{ end }}
+</header>

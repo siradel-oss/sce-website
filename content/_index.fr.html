@@ -1,0 +1,166 @@
++++
+layout = "home"
+title = "SCE — l'écosystème géospatial ouvert de Siradel"
+description = "SCE est l'écosystème Siradel pour le traitement, la diffusion et la visualisation de données géospatiales, en 2D comme en 3D. Ses briques open source sont ici."
+
+[cascade.params]
+    title_suffix = "SCE"
+
+[hero]
+title = "Afficher, traiter et servir<br class=\"hidden sm:inline\" /> vos données géospatiales"
+subtitle = """
+    Siradel développe SCE, un écosystème technique pour traiter, diffuser et
+    visualiser la donnée géospatiale, en 2D comme en 3D.
+    C'est ici que vivent ses briques open source.
+"""
+cta_projects = "Voir les projets"
+cta_github = "Organisation GitHub"
+caption_label = "Des données géospatiales à une vue partagée"
+caption = "Un écosystème. En 2D comme en 3D."
+
+[[capabilities]]
+icon = "icon-capability-layers"
+title = "Traiter"
+desc = "Préparez vos données SIG, 3D et BIM."
+
+[[capabilities]]
+icon = "icon-capability-database"
+title = "Servir"
+desc = "Exposez et sécurisez vos sources."
+
+[[capabilities]]
+icon = "icon-capability-map"
+title = "Visualiser"
+desc = "Donnez vie à vos données géospatiales en 2D et en 3D."
+
+[ecosystem]
+eyebrow = "L'écosystème"
+title = "Ce que couvre l'écosystème"
+lead = """
+    SCE regroupe quatre familles de composants indépendants, utilisables seules ou
+    assemblées en une chaîne complète. Une partie est déjà open source, d'autres le
+    seront, le reste est distribué sous licence par Siradel.
+"""
+
+[[ecosystem.perspectives]]
+image = "perspective-planar.jpg"
+caption = "Des sources brutes…"
+tag = "SIG · 3D · BIM"
+
+[[ecosystem.perspectives]]
+image = "perspective-spatial.jpg"
+caption = "…aux expériences géospatiales."
+tag = "2D · 3D"
+
+[[ecosystem.categories]]
+title = "Traitement des données"
+icon = "icon-data-processing"
+key = "processing"
+flow_visual = "flow-visual-tiled-layers.svg"
+short = "Traitement"
+desc = "Conversion, tuilage et optimisation des sources géospatiales — orthophotos, rasters, vecteurs, modèles 3D — pour les rendre exploitables en temps réel."
+
+[[ecosystem.categories]]
+title = "Serveur d'application"
+icon = "icon-app-server"
+key = "server"
+flow_visual = "flow-visual-database.svg"
+short = "Serveur"
+desc = "Ingérez, exposez et sécurisez vos données. Gardez la main sur des sources qui changent et sur l'accès utilisateur par utilisateur."
+
+[[ecosystem.categories]]
+title = "Librairie de rendu"
+icon = "icon-rendering"
+key = "rendering"
+flow_visual = "perspective-spatial.jpg"
+short = "Rendu"
+desc = "Lisez directement des sources publiées et affichez la donnée géospatiale en 2D comme en 3D."
+
+[[ecosystem.categories]]
+title = "Applications métier"
+icon = "icon-applications"
+key = "applications"
+flow_visual = "flow-visual-team-workspace.svg"
+short = "Application"
+desc = "Laissez les experts métier créer les contenus, superviser et analyser le terrain eux-mêmes."
+
+[flow]
+eyebrow = "Comment ça s'assemble"
+title = "Une famille, ou les quatre"
+lead = "Partez de votre besoin. N'ajoutez que ce qui manque, de l'assemblage le plus léger au plus complet."
+
+[[flow.scenarios]]
+name = "Afficher une source existante"
+icon = "flow-source-radio-tower"
+input = "Données ouvertes, flux"
+families = ["rendering"]
+output = "Une carte en ligne, hébergée n'importe où"
+desc = "Lisez directement une source déjà publiée avec une librairie de rendu. Rien à préparer en amont ; rien à héberger au-delà de la page elle-même."
+
+[[flow.scenarios]]
+name = "Travailler sur vos données"
+icon = "flow-source-files"
+input = "Vos couches SIG, 3D, BIM"
+families = ["processing", "rendering"]
+adds = "processing"
+output = "La même carte, sur vos données"
+desc = "Les sources brutes sont rarement prêtes pour le temps réel. Le traitement les convertit, les tuile et les allège une seule fois, en amont. Gardez la même application par-dessus."
+
+[[flow.scenarios]]
+name = "Tenir à jour et sous contrôle"
+icon = "flow-source-refresh"
+input = "Vos sources qui évoluent"
+families = ["processing", "server", "rendering"]
+adds = "server"
+output = "Une plateforme qui se met à jour seule"
+desc = "Pour des données qui changent, un accès utilisateur par utilisateur ou des indicateurs à la demande, ajoutez un serveur qui ingère, expose et sécurise. Le reste de la chaîne ne bouge pas."
+
+[[flow.scenarios]]
+name = "Outiller les métiers"
+icon = "flow-source-users"
+input = "Vos sources et vos équipes"
+families = ["processing", "server", "rendering", "applications"]
+adds = "applications"
+output = "Vos équipes publient sans développeur"
+desc = "Les experts métier créent les contenus, supervisent et analysent le terrain eux-mêmes — sans nouveau cycle de développement à chaque demande."
+
+[projects]
+eyebrow = "Projets"
+title = "Les briques ouvertes"
+lead = """
+    Une brique, un dépôt, un site. Voici celles qui sont open source et celles qui vont
+    l'être. Les autres composants de l'écosystème restent distribués sous licence par Siradel.
+"""
+
+[[projects.bricks]]
+name = "#horizon"
+status = "oss"
+tagline = "Moteur de rendu 3D temps réel"
+desc = "Visualisez, analysez et partagez vos données géographiques en 3D, dans tout navigateur moderne via WebGL 2 et en natif sur Windows et Linux via OpenGL 3. API C++ et TypeScript."
+url = "https://horizon.oss.siradel.com/"
+repo = "https://github.com/siradel-oss/horizon"
+
+[[projects.bricks]]
+name = "#mc3d"
+status = "soon"
+tagline = "Serveur de données et SDK client"
+desc = "Importez vos données et vos flux, transformez-les, exposez-les sous différentes formes et sécurisez-en l'accès. Côté client, le SDK porte la description de scène, l'accès aux données, le style et l'interaction."
+
+[[projects.bricks]]
+name = "#swa"
+status = "soon"
+tagline = "Création collaborative de contenus"
+desc = "Créez vos contenus sans écrire de code : cartes 2D/3D, tableaux de bord et les vues qui vont avec. Importez, stylisez, filtrez, agencez, puis publiez."
+
+[contribute]
+eyebrow = "Participer"
+title = "Construisons ensemble"
+desc = """
+    Ouvrez une issue, proposez une pull request, ou dites-nous ce que vous attendez de
+    la prochaine brique. Le support entreprise et les intégrations pilotes passent par
+    les équipes Siradel.
+"""
+cta_github = "Organisation GitHub"
+cta_contact = "Nous contacter"
+
++++

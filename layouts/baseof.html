@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="{{ .Site.Language.Lang }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="{{ .Page.Params.description | default .Site.Params.description }}"
+    />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=satoshi@1,2&display=swap"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="{{ (resources.Get "favicon.svg").RelPermalink }}"
+    />
+    {{/* The home page title already carries the brand, so appending the
+      suffix repeated it. Sub-pages still read "#horizon &centerdot; SCE".
+    */}}
+    <title>
+      {{- if .IsHome -}}
+        {{ .Page.Title }}
+      {{- else -}}
+        {{ with .Page.Title }}{{ . }} &centerdot;{{ end }}
+        {{- .Page.Params.title_suffix | default "SCE" -}}
+      {{- end -}}
+    </title>
+    {{ with (templates.Defer (dict "key" "global")) }}
+      {{ partial "css.html" . }}
+    {{ end }}
+    {{ block "head" . }}{{ end }}
+  </head>
+  <body
+    class="font-sans antialiased text-on-primary flex flex-col min-h-screen"
+  >
+    {{ partial "header.html" . }}
+    {{ block "main" . }}{{ end }}
+    {{ partial "footer.html" . }}
+    <script src="{{ (resources.Get "scripts/nav.js").RelPermalink }}"></script>
+  </body>
+</html>

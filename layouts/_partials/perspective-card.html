@@ -1,0 +1,18 @@
+{{/* One of the two views that open the ecosystem section: a picture, a caption
+  and what it covers.
+  Params: image (file in assets/images), caption, tag.
+*/}}
+{{ $img := (resources.Get (printf "images/%s" .image)).Resize "1416x webp q80" }}
+<figure class="flex flex-col overflow-hidden rounded-md bg-inverse-surface">
+  <img
+    src="{{ $img.RelPermalink }}"
+    alt=""
+    width="{{ $img.Width }}"
+    height="{{ $img.Height }}"
+    class="h-70 w-full object-cover"
+  />
+  <figcaption class="flex items-center justify-between gap-md p-xl">
+    <span class="text-body-lg font-bold tracking-tight">{{ .caption }}</span>
+    <span class="tag tag--night shrink-0">{{ .tag }}</span>
+  </figcaption>
+</figure>

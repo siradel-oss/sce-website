@@ -1,0 +1,168 @@
+@layer components {
+  /* The possible SCE assemblies, one row per need, odd rows lightly tinted to ease reading across. Left: the need. Right: the
+     route that answers it — what you bring, the families it goes through, what
+     you get. Each route is one family longer than the one above it; the family
+     it adds is outlined in yellow.
+
+     The four families keep the same slot in every row (processing is always
+     first, rendering always third). A family a route does not use leaves its
+     slot empty and the line runs across, so the rows read as one growing
+     diagram rather than four unrelated chains.
+
+     Three layouts, from the width the diagram needs (~872px):
+     - below lg  : families wrap, each preceded by a bare arrow
+     - lg        : need above its route, the route as a slotted diagram
+     - 1400px up : need and route side by side, as in the Figma frame */
+  .flow-list {
+    --flow-node-w: 8.875rem;
+    @apply flex flex-col w-full;
+  }
+
+  .flow-scenario {
+    @apply border-b border-primary-outline-pressed last:border-b-0 odd:bg-on-primary/10;
+
+    @media (min-width: 1400px) {
+      display: grid;
+      grid-template-columns: 26.5rem minmax(0, 1fr);
+    }
+  }
+
+  /* ---------- The need ---------- */
+  .flow-need {
+    @apply flex items-center gap-lg px-lg pt-2xl pb-xl;
+
+    @media (min-width: 1400px) {
+      @apply border-r border-primary-outline-pressed;
+    }
+  }
+
+  .flow-need__num {
+    @apply w-12.5 shrink-0 text-secondary font-black text-heading-h5;
+  }
+
+  .flow-need__text {
+    @apply flex flex-col gap-md min-w-0 flex-1;
+  }
+
+  .flow-need__name {
+    @apply font-black text-balance text-heading-h5 tracking-tight;
+  }
+
+  .flow-need__desc {
+    @apply text-pretty text-body-lg tracking-tight;
+  }
+
+  /* ---------- The route ---------- */
+  .flow-route {
+    @apply grid gap-lg px-lg pt-lg pb-2xl;
+
+    @media (min-width: 64rem) {
+      grid-template-columns: 8.5rem auto;
+      align-items: center;
+      column-gap: 0;
+      row-gap: var(--spacing-xl);
+      padding: var(--spacing-4xl) var(--spacing-2xl) var(--spacing-5xl);
+    }
+  }
+
+  .flow-source {
+    @apply flex flex-col gap-sm items-start;
+  }
+
+  .flow-source__text {
+    @apply text-balance text-body-md font-bold;
+  }
+
+  .flow-chain {
+    @apply flex flex-wrap items-center gap-md;
+
+    @media (min-width: 64rem) {
+      display: grid;
+      grid-template-columns: repeat(4, var(--flow-node-w));
+      column-gap: var(--spacing-2xl);
+      margin-left: var(--spacing-5xl);
+    }
+  }
+
+  .flow-chain__item {
+    @apply flex items-center gap-md;
+
+    @media (min-width: 64rem) {
+      @apply relative block;
+      grid-column: var(--slot);
+    }
+  }
+
+  /* The arrow into a family. Below lg it is a bare arrow. From lg it is a
+     line that starts where the previous step ends and stops at the family's
+     edge: --skip counts the empty slots it crosses, --from-source trims the
+     6px the line stays clear of the source label. */
+  .flow-link {
+    @apply flex items-center;
+
+    &::before {
+      display: none;
+      content: "";
+    }
+
+    @media (min-width: 64rem) {
+      @apply absolute top-1/2 right-full -translate-y-1/2;
+      width: calc(
+        var(--spacing-2xl) + var(--skip, 0) *
+          (var(--flow-node-w) + var(--spacing-2xl))
+      );
+
+      &::before {
+        @apply block flex-1 border-t-[1.5px] border-primary-disabled;
+      }
+    }
+  }
+
+  .flow-chain__item--first .flow-link {
+    @media (min-width: 64rem) {
+      width: calc(
+        var(--spacing-5xl) - var(--spacing-2xs) + var(--skip, 0) *
+          (var(--flow-node-w) + var(--spacing-2xl))
+      );
+    }
+  }
+
+  .flow-link__arrow {
+    @media (min-width: 64rem) {
+      margin-right: var(--spacing-xxs);
+    }
+  }
+
+  /* A family of the assembly. A thicker yellow outline marks the one this row
+     adds; the label turns yellow with it, and a screen-reader-only prefix
+     says it in words. */
+  .flow-node {
+    @apply flex flex-col items-center gap-md pt-lg w-(--flow-node-w) h-29 rounded-md
+      border border-flow-node-outline bg-flow-node text-on-primary;
+
+    &.flow-node--new {
+      @apply border-2 border-secondary text-secondary;
+    }
+  }
+
+  .flow-node__visual {
+    @apply flex items-start justify-center h-13;
+  }
+
+  .flow-node__visual--photo {
+    @apply w-29 rounded-xs object-cover;
+  }
+
+  .flow-node__label {
+    @apply px-lg py-xxs text-body-md font-bold;
+  }
+
+  .flow-outcome {
+    @apply flex items-center gap-sm text-body-md font-bold;
+
+    @media (min-width: 64rem) {
+      grid-column: 2;
+      margin-left: var(--spacing-5xl);
+    }
+  }
+}

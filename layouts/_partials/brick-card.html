@@ -1,0 +1,64 @@
+{{/* One brick of the SCE ecosystem.
+  Params: name (#slug), tagline, desc, status ("oss" | "soon" | "enterprise"),
+  url (optional), repo (optional).
+  A brick without a url renders as a non-interactive card — no dead link.
+*/}}
+{{ $isOpen := eq .status "oss" }}
+<article
+  class="flex flex-col gap-2xl p-3xl rounded-md bg-inverse-surface border border-grey-700"
+>
+  <div class="flex items-center justify-between gap-md">
+    <h3 class="font-black text-body-xl tracking-tight">{{ .name }}</h3>
+    <span
+      class="tag {{ if $isOpen }}
+        tag--filled-yellow
+      {{ else }}
+        tag--outlined
+      {{ end }} shrink-0"
+    >
+      {{ if $isOpen }}
+        {{ T "open_source" }}
+      {{ else if eq .status "enterprise" }}
+        {{ T "proprietary" }}
+      {{ else }}
+        {{ T "coming_soon" }}
+      {{ end }}
+    </span>
+  </div>
+
+  <p class="text-balance text-body-lg font-bold tracking-tight">
+    {{ .tagline }}
+  </p>
+  <p class="text-pretty text-body-md font-medium flex-1">
+    {{ .desc | safeHTML }}
+  </p>
+
+  {{ if or .url .repo }}
+    <div class="flex flex-wrap gap-lg">
+      {{ with .url }}
+        <a href="{{ . }}" class="btn btn-filled-white btn-md rounded-xs">
+          <span>{{ T "visit_site" }}</span>
+          <span class="btn-icon">
+            <img
+              src="{{ (resources.Get "images/icon-arrow-right-cta.svg").RelPermalink }}"
+              alt=""
+              class="size-md"
+            />
+          </span>
+        </a>
+      {{ end }}
+      {{ with .repo }}
+        <a href="{{ . }}" class="btn btn-outlined btn-md rounded-xs">
+          <span>GitHub</span>
+          <span class="btn-icon">
+            <img
+              src="{{ (resources.Get "images/icon-github-light.svg").RelPermalink }}"
+              alt=""
+              class="size-xl"
+            />
+          </span>
+        </a>
+      {{ end }}
+    </div>
+  {{ end }}
+</article>

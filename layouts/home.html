@@ -1,0 +1,264 @@
+{{ define "main" }}
+  <main id="main" tabindex="-1" class="grow bg-inverse-surface-strong">
+    <!-- ══ Hero ══════════════════════════════════════════════ -->
+    {{/* pt-22 clears the header, which is absolutely positioned (88px tall). */}}
+    <section aria-label="Hero" class="bg-inverse-surface-strong pt-22">
+      <div
+        class="relative flex flex-col min-h-137.5 overflow-hidden rounded-md bg-black"
+      >
+        {{/* The picture is cropped in on its right half, the left stays black
+          so the headline keeps its contrast without a scrim. Below lg the
+          text sits over the picture, so it is dimmed instead.
+        */}}
+        {{ $hero := resources.Get "images/hero-geospatial.png" }}
+        {{ $hero800 := $hero.Resize "800x webp q80" }}
+        {{ $hero1400 := $hero.Resize "1400x webp q80" }}
+        {{ $hero2000 := $hero.Resize "2000x webp q80" }}
+        <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
+          <img
+            src="{{ $hero2000.RelPermalink }}"
+            srcset="
+              {{ $hero800.RelPermalink }}  800w,
+              {{ $hero1400.RelPermalink }} 1400w,
+              {{ $hero2000.RelPermalink }} 2000w
+            "
+            sizes="(min-width: 1024px) 91vw, 100vw"
+            alt=""
+            width="{{ $hero2000.Width }}"
+            height="{{ $hero2000.Height }}"
+            class="absolute max-w-[none] object-cover left-0 top-0 size-full opacity-40 lg:opacity-100 lg:left-[34.58%] lg:top-[-29.73%] lg:w-[90.9%] lg:h-[191.74%]"
+          />
+        </div>
+
+        <div
+          class="relative z-10 flex flex-1 items-center w-full max-w-360 mx-auto px-3xl py-9xl lg:py-10xl"
+        >
+          <div class="flex flex-col items-start gap-3xl lg:px-4xl">
+            <h1
+              class="font-black tracking-tight text-heading-h1-mobile sm:text-heading-h1-tablet lg:text-heading-h1 max-w-215"
+            >
+              {{ .Params.hero.title | safeHTML }}
+            </h1>
+            <p class="text-body-md sm:text-body-lg tracking-tight max-w-152">
+              {{ .Params.hero.subtitle | safeHTML }}
+            </p>
+            <div class="flex flex-col sm:flex-row gap-lg w-full sm:w-auto">
+              <a
+                href="#projects"
+                class="btn btn-filled-white btn-md rounded-xs justify-center"
+              >
+                <span>{{ .Params.hero.cta_projects }}</span>
+                <span class="btn-icon"
+                  ><img
+                    src="{{ (resources.Get "images/icon-arrow-right-cta.svg").RelPermalink }}"
+                    alt=""
+                    class="size-md"
+                /></span>
+              </a>
+              <a
+                href="{{ .Site.Params.github_org }}"
+                class="btn btn-outlined btn-md rounded-xs justify-center"
+              >
+                <span>{{ .Params.hero.cta_github }}</span>
+                <span class="btn-icon"
+                  ><img
+                    src="{{ (resources.Get "images/icon-arrow-right-light.svg").RelPermalink }}"
+                    alt=""
+                    class="size-md"
+                /></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="relative z-10 flex flex-col gap-sm self-start m-3xl mt-0 p-xl rounded-xs bg-inverse-surface-strong
+            lg:absolute lg:right-2xl lg:bottom-2xl lg:m-0 lg:w-max lg:whitespace-nowrap"
+        >
+          <p class="text-body-xs font-bold uppercase text-primary-disabled">
+            {{ .Params.hero.caption_label }}
+          </p>
+          <p class="text-body-lg font-bold tracking-tight">
+            {{ .Params.hero.caption }}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ What SCE does ═════════════════════════════════════ -->
+    <section
+      aria-label="{{ T "capabilities" }}"
+      class="border-y border-grey-700 bg-inverse-surface-strong"
+    >
+      <ul
+        role="list"
+        class="grid gap-2xl md:grid-cols-3 max-w-360 mx-auto px-lg py-3xl"
+      >
+        {{ range .Params.capabilities }}
+          <li class="flex items-center gap-lg">
+            <img
+              src="{{ (resources.Get (printf "images/%s.svg" .icon)).RelPermalink }}"
+              alt=""
+              class="size-11 shrink-0"
+            />
+            <div class="flex flex-col gap-xxs">
+              <p class="font-bold text-heading-h5 tracking-tight">
+                {{ .title }}
+              </p>
+              <p class="text-body-lg font-medium">{{ .desc }}</p>
+            </div>
+          </li>
+        {{ end }}
+      </ul>
+    </section>
+
+    <!-- ══ What SCE is ═══════════════════════════════════════ -->
+    <section
+      id="ecosystem"
+      aria-labelledby="ecosystem-heading"
+      class="backdrop-flow scroll-mt-24 px-3xl py-11xl lg:py-16xl"
+    >
+      <div class="mx-auto max-w-360 flex flex-col items-center gap-5xl">
+        {{ partial "section-header.html" (dict
+          "eyebrow" .Params.ecosystem.eyebrow
+          "headingId" "ecosystem-heading"
+          "title" .Params.ecosystem.title
+          "lead" .Params.ecosystem.lead)
+        }}
+
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2xl w-full">
+          {{ range .Params.ecosystem.perspectives }}
+            {{ partial "perspective-card.html" . }}
+          {{ end }}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2xl w-full">
+          {{ range $i, $p := .Params.ecosystem.categories }}
+            {{ partial "usecase-card.html" (dict
+              "number" (printf "%02d" (add $i 1))
+              "title" (default $p.title $p.short)
+              "text" $p.desc
+              "icon" (resources.Get (printf "images/%s.svg" $p.icon)).RelPermalink)
+            }}
+          {{ end }}
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ How the ecosystem fits together ═══════════════════ -->
+    <section
+      aria-labelledby="flow-heading"
+      class="backdrop-flow px-3xl lg:px-5xl py-11xl lg:py-16xl"
+    >
+      <div class="mx-auto max-w-360 flex flex-col items-center gap-5xl">
+        {{ partial "section-header.html" (dict
+          "eyebrow" .Params.flow.eyebrow
+          "headingId" "flow-heading"
+          "title" .Params.flow.title
+          "lead" .Params.flow.lead)
+        }}
+        {{/* Families are worded once, in ecosystem.categories; the flow
+          references them by key so the two sections cannot drift apart. The
+          category's position is its slot in every assembly.
+        */}}
+        {{ $families := dict }}
+        {{ range $i, $c := .Params.ecosystem.categories }}
+          {{ $families = merge $families (dict $c.key (dict
+            "slot" (add $i 1)
+            "label" (default $c.title $c.short)
+            "visual" $c.flow_visual
+            "photo" (strings.HasSuffix (string $c.flow_visual) ".jpg")))
+          }}
+        {{ end }}
+        {{ partial "ecosystem-flow.html" (dict
+          "scenarios" .Params.flow.scenarios
+          "families" $families)
+        }}
+      </div>
+    </section>
+
+    <!-- ══ The bricks ════════════════════════════════════════ -->
+    <section
+      id="projects"
+      aria-labelledby="projects-heading"
+      class="scroll-mt-24 bg-inverse-surface-strong px-3xl lg:px-7xl py-11xl lg:py-13xl"
+    >
+      <div
+        class="mx-auto max-w-360 flex flex-col items-center gap-6xl lg:gap-10xl"
+      >
+        {{ partial "section-header.html" (dict
+          "eyebrow" .Params.projects.eyebrow
+          "headingId" "projects-heading"
+          "title" .Params.projects.title
+          "lead" .Params.projects.lead)
+        }}
+
+
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2xl w-full"
+        >
+          {{ range .Params.projects.bricks }}
+            {{ partial "brick-card.html" . }}
+          {{ end }}
+        </div>
+
+        {{ with .Params.projects.note }}
+          <p class="text-balance text-body-sm text-on-primary/70 text-center">
+            {{ . | safeHTML }}
+          </p>
+        {{ end }}
+      </div>
+    </section>
+
+    <!-- ══ Get involved ══════════════════════════════════════ -->
+    <section
+      id="contribute"
+      aria-labelledby="contribute-heading"
+      class="scroll-mt-24 border-b border-grey-700 bg-primary-dim px-3xl lg:px-7xl py-11xl lg:py-13xl"
+    >
+      <div
+        class="mx-auto flex flex-col items-center gap-2xl max-w-205 text-center"
+      >
+        <p class="text-primary-disabled text-body-xs font-bold uppercase">
+          {{ .Params.contribute.eyebrow }}
+        </p>
+        <h2
+          id="contribute-heading"
+          class="font-black text-balance tracking-tight text-heading-h2-mobile sm:text-heading-h2-tablet lg:text-heading-h2"
+        >
+          {{ .Params.contribute.title | safeHTML }}
+        </h2>
+        <p class="text-balance text-body-md sm:text-body-lg tracking-tight">
+          {{ .Params.contribute.desc | safeHTML }}
+        </p>
+        <div class="flex flex-col sm:flex-row gap-lg">
+          <a
+            href="{{ .Site.Params.github_org }}"
+            class="btn btn-filled-white btn-md rounded-xs justify-center"
+          >
+            <span>{{ .Params.contribute.cta_github }}</span>
+            <span class="btn-icon"
+              ><img
+                src="{{ (resources.Get "images/icon-github.svg").RelPermalink }}"
+                alt=""
+                class="size-xl"
+            /></span>
+          </a>
+          <a
+            href="mailto:{{ .Site.Params.contact_email }}"
+            class="btn btn-outlined btn-md rounded-xs justify-center"
+          >
+            <span>{{ .Params.contribute.cta_contact }}</span>
+            <span class="btn-icon"
+              ><img
+                src="{{ (resources.Get "images/icon-arrow-right-light.svg").RelPermalink }}"
+                alt=""
+                class="size-lg"
+            /></span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+{{ end }}

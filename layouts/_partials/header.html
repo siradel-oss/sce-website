@@ -1,0 +1,125 @@
+<header class="header absolute top-0 inset-x-0 z-30 px-3xl">
+  <a class="header__skip-link" href="#main">{{ T "skip_to_content" }}</a>
+
+  <nav
+    aria-label="Main"
+    class="relative z-10 flex items-center justify-between max-w-360 mx-auto py-xs"
+  >
+    <!-- Ecosystem marker. Every SCE site anchors where it sits; this one is the
+         family itself, so it carries no chevron and no #brick after it. -->
+    <a href="{{ relref $ "/" }}" class="flex items-center gap-sm">
+      <span class="flex items-center py-md">
+        <img
+          src="{{ (resources.Get "images/logo-sce-pin.svg").RelPermalink }}"
+          alt="SCE"
+          class="w-6.5 h-14"
+        />
+      </span>
+      <span class="font-bold text-body-lg tracking-tight">#SCE</span>
+    </a>
+
+    <ul
+      class="header__main-nav hidden lg:flex items-center gap-5xl text-body-md font-bold"
+    >
+      {{ range .Site.Menus.main }}
+        <li><a href="{{ .URL | relLangURL }}">{{ T .Identifier }}</a></li>
+      {{ end }}
+    </ul>
+
+    <div class="flex items-center gap-2xl">
+      <a
+        href="{{ .Site.Params.github_org }}"
+        class="
+          inline-flex items-center gap-xs px-md py-xs rounded-xs bg-surface text-on-surface
+          text-body-md font-bold transition-colors hover:bg-primary-accent
+        "
+      >
+        <img
+          src="{{ (resources.Get "images/icon-github.svg").RelPermalink }}"
+          alt=""
+          class="w-4.5 h-4.25"
+        />
+        <span>GitHub</span>
+      </a>
+
+      <details
+        class="hidden lg:block relative text-body-xs text-on-primary font-bold"
+      >
+        <summary class="list-none">
+          <div
+            class="
+              inline-flex items-center gap-xs px-md py-2xs rounded-xs border border-on-primary hover:bg-surface/10
+              transition-colors cursor-pointer
+            "
+          >
+            <span aria-hidden="true">{{ .Site.Language.Label }}</span>
+            <svg
+              aria-hidden="true"
+              width="10"
+              height="6"
+              viewBox="0 0 10 6"
+              fill="none"
+              class="transition-transform [[open]_&]:rotate-180"
+            >
+              <path
+                d="M1 1l4 4 4-4"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </summary>
+        <div
+          class="
+            absolute flex flex-col border-on-primary border rounded-xs mt-2 p-sm bg-inverse-surface
+            inset-x-0 whitespace-nowrap gap-xs
+          "
+        >
+          {{ range .AllTranslations }}
+            <a href="{{ .RelPermalink }}">{{ .Language.Label }}</a>
+          {{ end }}
+        </div>
+      </details>
+
+      <button
+        id="header__burger"
+        type="button"
+        aria-label="{{ i18n "menu_open" }}"
+        data-label-open="{{ i18n "menu_open" }}"
+        data-label-close="{{ i18n "menu_close" }}"
+        aria-expanded="false"
+        aria-controls="header__mobile-menu"
+      >
+        <span aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </nav>
+
+  <div
+    id="header__mobile-menu"
+    role="dialog"
+    aria-label="Navigation menu"
+    aria-modal="true"
+    inert
+    class="lg:hidden fixed inset-0 bg-inverse-surface-strong flex flex-col justify-center items-center opacity-0 scale-95 pointer-events-none transition-[opacity,transform] duration-300 ease-in-out"
+  >
+    <ul class="flex flex-col gap-2xl text-center font-black">
+      {{ range .Site.Menus.main }}
+        <li><a href="{{ .URL | relLangURL }}">{{ T .Identifier }}</a></li>
+      {{ end }}
+      <li class="pt-xl">
+        {{ range .AllTranslations }}
+          <a href="{{ .RelPermalink }}" class="text-body-xs"
+            >{{ .Language.Label }}</a
+          >
+        {{ end }}
+      </li>
+    </ul>
+  </div>
+</header>

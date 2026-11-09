@@ -1,0 +1,18 @@
+menu__ecosystem = "Ecosystem"
+menu__projects = "Projects"
+menu__contribute = "Contribute"
+
+skip_to_content = "Skip to content"
+learn_more = "Learn more"
+visit_site = "Visit the site"
+coming_soon = "Coming soon"
+open_source = "Open source"
+proprietary = "Enterprise"
+back_to_top = "Back to top"
+
+flow_adds = "Added at this step:"
+
+menu_open = "Menu"
+menu_close = "Close menu"
+
+capabilities = "What SCE does"

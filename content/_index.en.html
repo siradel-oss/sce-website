@@ -1,0 +1,165 @@
++++
+layout = "home"
+title = "SCE — Siradel's open geospatial ecosystem"
+description = "SCE is Siradel's ecosystem for processing, serving and visualizing geospatial data, in 2D and in 3D. Its open-source bricks live here."
+
+[cascade.params]
+    title_suffix = "SCE"
+
+[hero]
+title = "Display, process and serve<br class=\"hidden sm:inline\" /> your geospatial data"
+subtitle = """
+    Siradel builds SCE, a technical ecosystem to process, serve and visualize
+    geospatial data, in 2D and in 3D.
+    This is where its open-source bricks live.
+"""
+cta_projects = "See the projects"
+cta_github = "GitHub organization"
+caption_label = "From geospatial data to a shared view"
+caption = "One ecosystem. In 2D and in 3D."
+
+[[capabilities]]
+icon = "icon-capability-layers"
+title = "Process"
+desc = "Prepare your GIS, 3D and BIM data."
+
+[[capabilities]]
+icon = "icon-capability-database"
+title = "Serve"
+desc = "Expose and secure your sources."
+
+[[capabilities]]
+icon = "icon-capability-map"
+title = "Visualize"
+desc = "Bring geospatial data to life in 2D and 3D."
+
+[ecosystem]
+eyebrow = "The ecosystem"
+title = "What the ecosystem covers"
+lead = """
+    SCE gathers four families of independent components, usable on their own or
+    assembled into a single chain. Part of it is already open source, more will follow, and
+    the rest remains licensed by Siradel.
+"""
+
+[[ecosystem.perspectives]]
+image = "perspective-planar.jpg"
+caption = "From raw sources…"
+tag = "GIS · 3D · BIM"
+
+[[ecosystem.perspectives]]
+image = "perspective-spatial.jpg"
+caption = "…to geospatial experiences."
+tag = "2D · 3D"
+
+[[ecosystem.categories]]
+title = "Data processing"
+icon = "icon-data-processing"
+key = "processing"
+flow_visual = "flow-visual-tiled-layers.svg"
+short = "Processing"
+desc = "Conversion, tiling and optimization of geospatial sources — orthophotos, rasters, vectors, 3D models — so they can be consumed in real time."
+
+[[ecosystem.categories]]
+title = "Application server"
+icon = "icon-app-server"
+key = "server"
+flow_visual = "flow-visual-database.svg"
+short = "Server"
+desc = "Ingest, expose and secure your data. Keep changing sources and user-by-user access under control."
+
+[[ecosystem.categories]]
+title = "Rendering library"
+icon = "icon-rendering"
+key = "rendering"
+flow_visual = "perspective-spatial.jpg"
+short = "Rendering"
+desc = "Read published sources directly and display geospatial data in 2D and in 3D."
+
+[[ecosystem.categories]]
+title = "Business applications"
+icon = "icon-applications"
+key = "applications"
+flow_visual = "flow-visual-team-workspace.svg"
+short = "Application"
+desc = "Let domain experts author content, supervise and analyze the field themselves."
+
+[flow]
+eyebrow = "How it fits together"
+title = "One family, or all four"
+lead = "Start with your need. Add only what’s missing, from the lightest assembly to the most complete."
+
+[[flow.scenarios]]
+name = "Display an existing source"
+icon = "flow-source-radio-tower"
+input = "Open data, live feeds"
+families = ["rendering"]
+output = "A map online, hosted anywhere"
+desc = "Read an already published source directly with a rendering library. Nothing to prepare up front; nothing to host beyond the page itself."
+
+[[flow.scenarios]]
+name = "Work on your own data"
+icon = "flow-source-files"
+input = "Your GIS, 3D and BIM data"
+families = ["processing", "rendering"]
+adds = "processing"
+output = "The same map, on your own data"
+desc = "Raw sources are rarely ready for real time. Processing converts, tiles and lightens them once, up front. Keep the same application on top."
+
+[[flow.scenarios]]
+name = "Keep it current and controlled"
+icon = "flow-source-refresh"
+input = "Your sources, as they change"
+families = ["processing", "server", "rendering"]
+adds = "server"
+output = "A platform that keeps itself current"
+desc = "For changing data, user-by-user access or on-demand indicators, add a server to ingest, expose and secure. Leave the rest of the chain alone."
+
+[[flow.scenarios]]
+name = "Equip the business teams"
+icon = "flow-source-users"
+input = "Your sources and your teams"
+families = ["processing", "server", "rendering", "applications"]
+adds = "applications"
+output = "Your teams publish without a developer"
+desc = "Domain experts author content, supervise and analyze the field themselves — without a new development cycle for every request."
+
+[projects]
+eyebrow = "Projects"
+title = "The open bricks"
+lead = """
+    One brick, one repository, one site. These are the ones that are open source and the ones
+    that will be. The other components of the ecosystem remain licensed by Siradel.
+"""
+
+[[projects.bricks]]
+name = "#horizon"
+status = "oss"
+tagline = "Real-time 3D rendering engine"
+desc = "Visualize, analyze and share geographic data in 3D, in any modern browser through WebGL 2 and natively on Windows and Linux through OpenGL 3. C++ and TypeScript APIs."
+url = "https://horizon.oss.siradel.com/"
+repo = "https://github.com/siradel-oss/horizon"
+
+[[projects.bricks]]
+name = "#mc3d"
+status = "soon"
+tagline = "Data server and client SDK"
+desc = "Import your data and feeds, transform them, expose them in several forms and secure access to them. On the client side, the SDK carries the scene description, data access, styling and interaction."
+
+[[projects.bricks]]
+name = "#swa"
+status = "soon"
+tagline = "Collaborative content authoring"
+desc = "Build your content without writing code: 2D/3D maps, dashboards and the views that go with them. Import, style, filter, arrange, then publish."
+
+[contribute]
+eyebrow = "Get involved"
+title = "Build with us"
+desc = """
+    Open an issue, send a pull request, or tell us what you need from the next brick.
+    Enterprise support and pilot integrations are available through the Siradel team.
+"""
+cta_github = "GitHub organization"
+cta_contact = "Contact us"
+
++++

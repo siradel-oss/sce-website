@@ -1,0 +1,67 @@
+baseURL = 'https://sce.oss.siradel.com/'
+locale = 'en-us'
+title = 'SCE Open Source'
+enableMissingTranslationPlaceholders = true
+refLinksErrorLevel = 'WARNING'
+disablePathToLower = true
+# Nothing is tagged or categorized here.
+disableKinds = ['taxonomy', 'term']
+
+[build]
+    [build.buildStats]
+        enable = true
+    [[build.cachebusters]]
+        source = 'assets/notwatching/hugo_stats\.json'
+        target = 'css'
+
+[module]
+    [[module.mounts]]
+        source = 'assets'
+        target = 'assets'
+    [[module.mounts]]
+        disableWatch = true
+        source = 'hugo_stats.json'
+        target = 'assets/notwatching/hugo_stats.json'
+
+[languages]
+    [languages.en]
+        label = "EN"
+        locale = "en-us"
+        weight = 1
+    [languages.fr]
+        label = "FR"
+        locale = "fr-fr"
+        weight = 2
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.parser]
+      wrapStandAloneImageWithinParagraph = false
+      [markup.goldmark.parser.attribute]
+        block = true
+
+# Navigation — the site is a single page for now: every entry is an anchor.
+# When a brick gets its own page, swap `url` for `pageRef`.
+[menus]
+    [[menus.main]]
+        identifier = "menu__ecosystem"
+        url = "/#ecosystem"
+        weight = 10
+    [[menus.main]]
+        identifier = "menu__projects"
+        url = "/#projects"
+        weight = 20
+    [[menus.main]]
+        identifier = "menu__contribute"
+        url = "/#contribute"
+        weight = 30
+
+[params]
+    github_org = "https://github.com/siradel-oss"
+    contact_email = "opensource@siradel.com"
+
+[security]
+    allowContent = [".*"]
+    # Hugo shells out to the local Tailwind CLI for css.TailwindCSS.
+    [security.exec]
+        allow = ['^(dart-)?sass$', '^go$', '^git$', '^node$', '^postcss$', '^tailwindcss$']
