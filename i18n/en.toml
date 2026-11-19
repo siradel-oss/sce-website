@@ -16,3 +16,31 @@ menu_open = "Menu"
 menu_close = "Close menu"
 
 capabilities = "What SCE does"
+
+og_image_alt = "3D city model rendered over a dark background"
+
+menu__demos = "Demos"
+live_demo = "Live demo"
+demo_screenshot = "Screenshot of {{ .name }}"
+
+not_found_title = "Page not found"
+not_found_text = "This page does not exist or has moved."
+back_home = "Back to the home page"
+
+all_demos = "Browse the demos"
+filter_bricks = "Building block"
+filter_themes = "Theme"
+filter_all = "All"
+filter_reset = "Clear filters"
+demos_none = "No demo matches these filters."
+built_with = "Built with"
+
+theme_imagery = "Imagery & maps"
+theme_terrain = "Terrain"
+theme_outdoors = "Outdoors"
+theme_risks = "Natural risks"
+
+# Plural forms: the gallery script reads them from data attributes.
+[demos_count]
+one = "{{ .Count }} demo"
+other = "{{ .Count }} demos"

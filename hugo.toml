@@ -6,6 +6,12 @@ refLinksErrorLevel = 'WARNING'
 disablePathToLower = true
 # Nothing is tagged or categorized here.
 disableKinds = ['taxonomy', 'term']
+enableRobotsTXT = true
+
+# No feed: the site has no dated content.
+[outputs]
+    home = ['html']
+    section = ['html']
 
 [build]
     [build.buildStats]
@@ -52,6 +58,10 @@ disableKinds = ['taxonomy', 'term']
         url = "/#projects"
         weight = 20
     [[menus.main]]
+        identifier = "menu__demos"
+        url = "/demos/"
+        weight = 25
+    [[menus.main]]
         identifier = "menu__contribute"
         url = "/#contribute"
         weight = 30
@@ -59,6 +69,10 @@ disableKinds = ['taxonomy', 'term']
 [params]
     github_org = "https://github.com/siradel-oss"
     contact_email = "opensource@siradel.com"
+    # The company entity as siradel.com declares it, so search engines merge
+    # both instead of seeing two Siradels.
+    siradel_id = "https://siradel.com/fr/#organization"
+    siradel_url = "https://siradel.com/"
 
 [security]
     allowContent = [".*"]

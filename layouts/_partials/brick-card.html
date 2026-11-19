@@ -1,6 +1,7 @@
 {{/* One brick of the SCE ecosystem.
   Params: name (#slug), tagline, desc, status ("oss" | "soon" | "enterprise"),
-  url (optional), repo (optional).
+  url (optional), repo (optional). license (SPDX id) and languages are not
+  shown here: seo.html reads them for open-source bricks.
   A brick without a url renders as a non-interactive card — no dead link.
 */}}
 {{ $isOpen := eq .status "oss" }}

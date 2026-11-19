@@ -1,0 +1,79 @@
+{{/* One demo, from a bundle of content/demos/.
+  Front matter: title, tagline, description, demo_url (live demo; url is
+  reserved by Hugo), repo, bricks (keys of the home page bricks) and themes
+  (i18n keys theme_*).
+  The data-* attributes feed the gallery filters (demo-filter.js).
+*/}}
+{{ $bricks := partial "bricks.html" . }}
+{{ $img := (.Resources.GetMatch "screenshot.*").Resize "800x webp q80" }}
+<article
+  class="demo-card flex flex-col overflow-hidden rounded-md bg-inverse-surface border border-grey-700"
+  data-bricks="{{ delimit .Params.bricks " " }}"
+  data-themes="{{ delimit .Params.themes " " }}"
+>
+  <img
+    src="{{ $img.RelPermalink }}"
+    alt="{{ T "demo_screenshot" (dict "name" .Title) }}"
+    width="{{ $img.Width }}"
+    height="{{ $img.Height }}"
+    loading="lazy"
+    class="w-full aspect-[40/21] object-cover"
+  />
+  <div class="flex flex-col flex-1 gap-xl p-3xl">
+    <ul
+      role="list"
+      class="flex flex-wrap gap-sm"
+      aria-label="{{ T "built_with" }}"
+    >
+      {{ range .Params.bricks }}
+        {{ with index $bricks . }}
+          <li>
+            {{ if .url }}
+              <a href="{{ .url }}" class="tag tag--filled-yellow"
+                >{{ .name }}</a
+              >
+            {{ else }}
+              <span class="tag tag--filled-yellow">{{ .name }}</span>
+            {{ end }}
+          </li>
+        {{ end }}
+      {{ end }}
+      {{ range .Params.themes }}
+        <li class="tag tag--outlined-small">{{ T (printf "theme_%s" .) }}</li>
+      {{ end }}
+    </ul>
+
+    <h3 class="font-black text-body-xl tracking-tight">{{ .Title }}</h3>
+    <p class="text-balance text-body-lg font-bold tracking-tight">
+      {{ .Params.tagline }}
+    </p>
+    <p class="text-pretty text-body-md font-medium flex-1">
+      {{ .Description }}
+    </p>
+    <div class="flex flex-wrap gap-lg">
+      <a
+        href="{{ .Params.demo_url }}"
+        class="btn btn-filled-white btn-md rounded-xs"
+      >
+        <span>{{ T "live_demo" }}</span>
+        <span class="btn-icon">
+          <img
+            src="{{ (resources.Get "images/icon-arrow-right-cta.svg").RelPermalink }}"
+            alt=""
+            class="size-md"
+          />
+        </span>
+      </a>
+      <a href="{{ .Params.repo }}" class="btn btn-outlined btn-md rounded-xs">
+        <span>GitHub</span>
+        <span class="btn-icon">
+          <img
+            src="{{ (resources.Get "images/icon-github-light.svg").RelPermalink }}"
+            alt=""
+            class="size-xl"
+          />
+        </span>
+      </a>
+    </div>
+  </div>
+</article>

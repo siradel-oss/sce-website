@@ -1,7 +1,7 @@
 +++
 layout = "home"
-title = "SCE: l'écosystème géospatial ouvert de Siradel"
-description = "SCE est l'écosystème Siradel pour le traitement, la diffusion et la visualisation de données géospatiales, en 2D comme en 3D. Ses briques open source sont ici."
+title = "SCE — écosystème géospatial 3D open source de Siradel"
+description = "Les briques open source de Siradel pour traiter, diffuser et visualiser des données géospatiales en 2D et en 3D, sur le web et en natif, des cartes aux jumeaux numériques."
 
 [cascade.params]
     title_suffix = "SCE"
@@ -94,6 +94,7 @@ name = "Afficher une source existante"
 icon = "flow-source-radio-tower"
 input = "Données ouvertes, flux"
 families = ["rendering"]
+adds = "rendering"
 output = "Une carte en ligne, hébergée n'importe où"
 desc = "Lisez directement une source déjà publiée avec une librairie de rendu. Rien à préparer en amont ; rien à héberger au-delà de la page elle-même."
 
@@ -139,6 +140,8 @@ tagline = "Moteur de rendu 3D temps réel"
 desc = "Visualisez, analysez et partagez vos données géographiques en 3D, dans tout navigateur moderne via WebGL 2 et en natif sur Windows et Linux via OpenGL 3. API C++ et TypeScript."
 url = "https://horizon.oss.siradel.com/"
 repo = "https://github.com/siradel-oss/horizon"
+license = "MIT"
+languages = ["C++", "TypeScript", "GLSL"]
 
 [[projects.bricks]]
 name = "#mc3d"
@@ -151,6 +154,14 @@ name = "#swa"
 status = "soon"
 tagline = "Création collaborative de contenus"
 desc = "Créez vos contenus sans écrire de code : cartes 2D/3D, tableaux de bord et les vues qui vont avec. Importez, stylisez, filtrez, agencez, puis publiez."
+
+[demos]
+eyebrow = "Démos"
+title = "En action"
+lead = """
+    Des applications open source construites sur les briques ci-dessus, à partir de données
+    ouvertes françaises. Chacune tourne dans le navigateur, avec son code source sur GitHub.
+"""
 
 [contribute]
 eyebrow = "Participer"

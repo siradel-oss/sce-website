@@ -1,0 +1,157 @@
+{{/* Search engine and link preview metadata.
+
+  Three entities, kept apart so each keeps its own identity:
+  - Siradel, the company: only referenced by the @id siradel.com declares;
+  - the open-source organization (this site, the siradel-oss GitHub org), a
+  sub-organization of Siradel;
+  - one SoftwareSourceCode per open-source brick and per demo, published by
+  the organization. Built from projects.bricks and the content/demos/ bundles
+  so the list
+  cannot drift.
+  Ids are absolute and language-independent, so EN and FR describe the same
+  entities.
+*/}}
+{{ $root := "/" | absURL }}
+{{ $desc := .Description | default site.Params.description }}
+{{ $ogImage := (resources.Get "images/hero-geospatial.webp").Fill "1200x630 Center jpg q82" }}
+{{ $ogLocales := dict "en" "en_US" "fr" "fr_FR" }}
+
+
+<link rel="canonical" href="{{ .Permalink }}" />
+{{ range .AllTranslations }}
+  <link
+    rel="alternate"
+    hreflang="{{ .Language.Lang }}"
+    href="{{ .Permalink }}"
+  />
+  {{ if eq .Language.Weight 1 }}
+    <link rel="alternate" hreflang="x-default" href="{{ .Permalink }}" />
+  {{ end }}
+{{ end }}
+
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="{{ site.Title }}" />
+<meta property="og:title" content="{{ .Title }}" />
+<meta property="og:description" content="{{ $desc }}" />
+<meta property="og:url" content="{{ .Permalink }}" />
+<meta property="og:locale" content="{{ index $ogLocales .Language.Lang }}" />
+{{ range .Translations }}
+  <meta
+    property="og:locale:alternate"
+    content="{{ index $ogLocales .Language.Lang }}"
+  />
+{{ end }}
+<meta property="og:image" content="{{ $ogImage.Permalink }}" />
+<meta property="og:image:width" content="{{ $ogImage.Width }}" />
+<meta property="og:image:height" content="{{ $ogImage.Height }}" />
+<meta property="og:image:alt" content="{{ T "og_image_alt" }}" />
+<meta name="twitter:card" content="summary_large_image" />
+
+{{ $orgId := printf "%s#organization" $root }}
+{{ $siteId := printf "%s#website" $root }}
+{{ $graph := slice
+  (dict
+  "@type" "Organization"
+  "@id" site.Params.siradel_id
+  "name" "Siradel"
+  "url" site.Params.siradel_url)
+  (dict
+  "@type" "Organization"
+  "@id" $orgId
+  "name" site.Title
+  "alternateName" "Siradel Open Source"
+  "url" $root
+  "logo" (resources.Get "images/logo-sce-512.png").Permalink
+  "email" site.Params.contact_email
+  "sameAs" (slice site.Params.github_org)
+  "parentOrganization" (dict "@id" site.Params.siradel_id))
+  (dict
+  "@type" "WebSite"
+  "@id" $siteId
+  "name" site.Title
+  "url" $root
+  "inLanguage" (slice "en" "fr")
+  "publisher" (dict "@id" $orgId))
+}}
+{{/* Software entities: on the home page and the demo gallery only. */}}
+{{ $isGallery := and (eq .Kind "section") (eq .Section "demos") }}
+{{ $bricks := partial "bricks.html" . }}
+{{ $brickEntities := slice }}
+{{ $demoEntities := slice }}
+{{ if or .IsHome $isGallery }}
+  {{ range site.Home.Params.projects.bricks }}
+    {{ if eq .status "oss" }}
+      {{ $brickEntities = $brickEntities | append (dict
+        "@type" "SoftwareSourceCode"
+        "@id" .repo
+        "name" (strings.FirstUpper (strings.TrimPrefix "#" .name))
+        "description" .desc
+        "url" .url
+        "codeRepository" .repo
+        "license" (printf "https://spdx.org/licenses/%s.html" .license)
+        "programmingLanguage" .languages
+        "publisher" (dict "@id" $orgId))
+      }}
+    {{ end }}
+  {{ end }}
+  {{/* Demos point to the bricks they use (isBasedOn): this is what ties the
+    demo family to the engine for search engines.
+  */}}
+  {{ range (site.GetPage "/demos").Pages.ByWeight }}
+    {{ $basedOn := slice }}
+    {{ range .Params.bricks }}
+      {{ with (index $bricks .).repo }}
+        {{ $basedOn = $basedOn | append (dict "@id" .) }}
+      {{ end }}
+    {{ end }}
+    {{ $shot := (.Resources.GetMatch "screenshot.*").Resize "800x webp q80" }}
+    {{ $demoEntities = $demoEntities | append (dict
+      "@type" "SoftwareSourceCode"
+      "@id" .Params.repo
+      "name" .Title
+      "description" (printf "%s. %s" .Params.tagline .Description)
+      "url" .Params.demo_url
+      "codeRepository" .Params.repo
+      "license" (printf "https://spdx.org/licenses/%s.html" .Params.license)
+      "image" $shot.Permalink
+      "isBasedOn" $basedOn
+      "publisher" (dict "@id" $orgId))
+    }}
+  {{ end }}
+{{ end }}
+
+{{ $page := dict
+  "@type" (cond $isGallery "CollectionPage" "WebPage")
+  "@id" .Permalink
+  "url" .Permalink
+  "name" .Title
+  "description" $desc
+  "inLanguage" .Language.Lang
+  "isPartOf" (dict "@id" $siteId)
+  "about" (dict "@id" $orgId)
+  "primaryImageOfPage" $ogImage.Permalink
+}}
+{{ if $isGallery }}
+  {{ $items := slice }}
+  {{ range $i, $d := $demoEntities }}
+    {{ $items = $items | append (dict
+      "@type" "ListItem"
+      "position" (add $i 1)
+      "item" (dict "@id" (index $d "@id")))
+    }}
+  {{ end }}
+  {{ $page = merge $page (dict "mainEntity" (dict "@type" "ItemList" "itemListElement" $items)) }}
+{{ else }}
+  {{ with $brickEntities | append $demoEntities }}
+    {{ $refs := slice }}
+    {{ range . }}
+      {{ $refs = $refs | append (dict "@id" (index . "@id")) }}
+    {{ end }}
+    {{ $page = merge $page (dict "mentions" $refs) }}
+  {{ end }}
+{{ end }}
+{{ $graph = $graph | append $page | append $brickEntities | append $demoEntities }}
+<script type="application/ld+json">
+  {{ dict "@context" "https://schema.org" "@graph" $graph | jsonify | safeJS }}
+</script>

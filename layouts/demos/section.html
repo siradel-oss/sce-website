@@ -1,0 +1,122 @@
+{{ define "main" }}
+  {{ $demos := .Pages.ByWeight }}
+  {{ $bricks := partial "bricks.html" . }}
+
+  {{/* Filter groups, built from what the demos declare. The brick group shows
+    even with a single brick: it tells what the demos are built on.
+  */}}
+  {{ $brickValues := slice }}
+  {{ $themeValues := slice }}
+  {{ range $demos }}
+    {{ $brickValues = $brickValues | append .Params.bricks }}
+    {{ $themeValues = $themeValues | append .Params.themes }}
+  {{ end }}
+  {{ $brickOptions := slice }}
+  {{ range uniq $brickValues }}
+    {{ $label := . }}
+    {{ with index $bricks . }}{{ $label = .name }}{{ end }}
+    {{ $brickOptions = $brickOptions | append (dict "value" . "label" $label) }}
+  {{ end }}
+  {{ $themeOptions := slice }}
+  {{ range uniq $themeValues }}
+    {{ $themeOptions = $themeOptions | append (dict "value" . "label" (T (printf "theme_%s" .))) }}
+  {{ end }}
+  {{ $groups := slice
+    (dict "key" "bricks" "label" (T "filter_bricks") "options" $brickOptions)
+    (dict "key" "themes" "label" (T "filter_themes") "options" $themeOptions)
+  }}
+
+
+  <main id="main" tabindex="-1" class="grow bg-inverse-surface-strong pt-22">
+    <section
+      aria-labelledby="demos-heading"
+      class="px-3xl lg:px-7xl py-11xl lg:py-13xl"
+    >
+      <div class="mx-auto max-w-360 flex flex-col items-center gap-5xl">
+        <header class="flex flex-col items-center gap-md text-center">
+          <p class="text-secondary text-body-sm font-bold uppercase">
+            {{ .Params.eyebrow }}
+          </p>
+          <h1
+            id="demos-heading"
+            class="font-black text-balance tracking-tight text-heading-h1-mobile sm:text-heading-h1-tablet lg:text-heading-h1"
+          >
+            {{ .Params.heading }}
+          </h1>
+          <p class="text-body-md sm:text-body-lg tracking-tight max-w-205">
+            {{ .Params.lead }}
+          </p>
+        </header>
+
+        {{/* Without JavaScript the filters stay hidden and every demo shows. */}}
+        <div
+          id="demo-filters"
+          hidden
+          class="flex flex-col gap-xl w-full"
+          data-count-one="{{ replace (T "demos_count" 1) "1" "{n}" 1 }}"
+          data-count-other="{{ replace (T "demos_count" 99) "99" "{n}" }}"
+        >
+          {{ range $groups }}
+            {{ if .options }}
+              <div
+                role="group"
+                aria-label="{{ .label }}"
+                class="flex flex-wrap items-center gap-sm"
+                data-filter-group="{{ .key }}"
+              >
+                <span
+                  class="basis-full sm:basis-auto text-body-sm font-bold sm:mr-md sm:min-w-36"
+                >
+                  {{ .label }}
+                </span>
+                {{ range .options }}
+                  <button
+                    type="button"
+                    class="tag tag--filter"
+                    aria-pressed="false"
+                    data-value="{{ .value }}"
+                  >
+                    {{ .label }}
+                  </button>
+                {{ end }}
+              </div>
+            {{ end }}
+          {{ end }}
+          <div class="flex flex-wrap items-center gap-lg">
+            <p
+              id="demo-count"
+              class="text-body-sm font-bold"
+              role="status"
+              aria-live="polite"
+            ></p>
+            <button
+              type="button"
+              id="demo-reset"
+              class="text-body-sm underline underline-offset-4"
+              hidden
+            >
+              {{ T "filter_reset" }}
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="demo-list"
+          class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2xl w-full"
+        >
+          {{ range $demos }}
+            {{ partial "demo-card.html" . }}
+          {{ end }}
+        </div>
+        <p id="demo-empty" class="text-body-lg" hidden>{{ T "demos_none" }}</p>
+      </div>
+    </section>
+  </main>
+{{ end }}
+
+{{ define "head" }}
+  <script
+    src="{{ (resources.Get "scripts/demo-filter.js" | minify | fingerprint).RelPermalink }}"
+    defer
+  ></script>
+{{ end }}

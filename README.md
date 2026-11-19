@@ -23,9 +23,14 @@ On Windows, use `npm` instead of `pnpm`.
 Home page content lives in the front matter of `content/_index.en.html` and
 `content/_index.fr.html`. Keep both languages in sync.
 
-`assets/design-system/` is vendored from
-[design-system](https://github.com/siradel-oss/design-system): do not edit the
-generated token files by hand.
+Each demo is a folder in `content/demos/`: `index.en.md`, `index.fr.md` and a
+`screenshot.webp` (about 1600×840). Its front matter lists the bricks it uses
+(`bricks = ["horizon"]`) and its themes (keys of `theme_*` in `i18n/`). The
+gallery at `/demos/` builds its filters from these fields and orders demos by
+`weight`.
+
+`assets/design-system/` is vendored from Siradel's design system: do not edit
+the generated token files by hand.
 
 ## Deployment
 
@@ -34,4 +39,6 @@ Published to <https://sce.oss.siradel.com/> on GitHub Pages by the
 
 ## License
 
-[MIT](LICENSE)
+The code is released under the [MIT](LICENSE) license. The Siradel and SCE
+logos and the pictures in `assets/images/` are not: they remain the property of
+Siradel.

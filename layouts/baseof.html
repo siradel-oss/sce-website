@@ -7,6 +7,11 @@
       name="description"
       content="{{ .Page.Params.description | default .Site.Params.description }}"
     />
+    {{/* The stylesheet comes from api.fontshare.com, the font files from
+      cdn.fontshare.com: open both connections before the CSS asks for them.
+    */}}
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
     <link
       href="https://api.fontshare.com/v2/css?f[]=satoshi@1,2&display=swap"
       rel="stylesheet"
@@ -24,10 +29,16 @@
       {{- if .IsHome -}}
         {{ .Page.Title }}
       {{- else -}}
-        {{ with .Page.Title }}{{ . }} &centerdot;{{ end }}
-        {{- .Page.Params.title_suffix | default "SCE" -}}
+        {{ $title := cond (eq .Kind "404") (T "not_found_title") .Page.Title }}
+        {{- with $title }}{{ printf "%s · " . }}{{ end -}}
+        {{ .Page.Params.title_suffix | default "SCE" -}}
       {{- end -}}
     </title>
+    {{ if eq .Kind "404" }}
+      <meta name="robots" content="noindex" />
+    {{ else }}
+      {{ partial "seo.html" . }}
+    {{ end }}
     {{ with (templates.Defer (dict "key" "global")) }}
       {{ partial "css.html" . }}
     {{ end }}

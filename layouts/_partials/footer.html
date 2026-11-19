@@ -14,12 +14,13 @@
       </a>
       <p class="text-on-primary text-body-sm">
         {{ $currentYear := now.Format "2006" }}
-        Copyright
+        &copy;
         {{ if (eq $currentYear "2026") -}}
           2026
         {{- else -}}
           2026-{{ $currentYear }}
         {{- end }}
+        Siradel
       </p>
     </div>
     <ul class="flex flex-wrap gap-2xl text-on-primary text-body-sm">

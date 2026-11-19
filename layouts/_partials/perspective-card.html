@@ -2,13 +2,19 @@
   and what it covers.
   Params: image (file in assets/images), caption, tag.
 */}}
-{{ $img := (resources.Get (printf "images/%s" .image)).Resize "1416x webp q80" }}
+{{ $src := resources.Get (printf "images/%s" .image) }}
+{{ $img := $src.Resize "1416x webp q80" }}
+{{ $small := $src.Resize "708x webp q80" }}
 <figure class="flex flex-col overflow-hidden rounded-md bg-inverse-surface">
+  {{/* Two columns from md up, so the card is about half the viewport. */}}
   <img
     src="{{ $img.RelPermalink }}"
+    srcset="{{ $small.RelPermalink }} 708w, {{ $img.RelPermalink }} 1416w"
+    sizes="(min-width: 768px) 50vw, 100vw"
     alt=""
     width="{{ $img.Width }}"
     height="{{ $img.Height }}"
+    loading="lazy"
     class="h-70 w-full object-cover"
   />
   <figcaption class="flex items-center justify-between gap-md p-xl">

@@ -16,3 +16,30 @@ menu_open = "Menu"
 menu_close = "Fermer le menu"
 
 capabilities = "Ce que fait SCE"
+
+og_image_alt = "Maquette 3D de ville rendue sur fond sombre"
+
+menu__demos = "Démos"
+live_demo = "Démo en ligne"
+demo_screenshot = "Capture d'écran : {{ .name }}"
+
+not_found_title = "Page introuvable"
+not_found_text = "Cette page n'existe pas ou a été déplacée."
+back_home = "Retour à l'accueil"
+
+all_demos = "Parcourir les démos"
+filter_bricks = "Brique"
+filter_themes = "Thème"
+filter_all = "Toutes"
+filter_reset = "Effacer les filtres"
+demos_none = "Aucune démo ne correspond à ces filtres."
+built_with = "Construit avec"
+
+theme_imagery = "Imagerie et cartes"
+theme_terrain = "Relief"
+theme_outdoors = "Plein air"
+theme_risks = "Risques naturels"
+
+[demos_count]
+one = "{{ .Count }} démo"
+other = "{{ .Count }} démos"

@@ -10,7 +10,7 @@
           so the headline keeps its contrast without a scrim. Below lg the
           text sits over the picture, so it is dimmed instead.
         */}}
-        {{ $hero := resources.Get "images/hero-geospatial.png" }}
+        {{ $hero := resources.Get "images/hero-geospatial.webp" }}
         {{ $hero800 := $hero.Resize "800x webp q80" }}
         {{ $hero1400 := $hero.Resize "1400x webp q80" }}
         {{ $hero2000 := $hero.Resize "2000x webp q80" }}
@@ -24,6 +24,7 @@
             "
             sizes="(min-width: 1024px) 91vw, 100vw"
             alt=""
+            fetchpriority="high"
             width="{{ $hero2000.Width }}"
             height="{{ $hero2000.Height }}"
             class="absolute max-w-[none] object-cover left-0 top-0 size-full opacity-40 lg:opacity-100 lg:left-[34.58%] lg:top-[-29.73%] lg:w-[90.9%] lg:h-[191.74%]"
@@ -210,6 +211,40 @@
         {{ end }}
       </div>
     </section>
+
+    <!-- ══ Demos ═════════════════════════════════════════════ -->
+    {{/* No cards here: the demos live on the gallery page, this only leads
+      there. Wording comes from the home front matter.
+    */}}
+    {{ with .Params.demos }}
+      <section
+        id="demos"
+        aria-labelledby="demos-heading"
+        class="scroll-mt-24 border-t border-grey-700 bg-inverse-surface-strong px-3xl lg:px-7xl py-11xl lg:py-13xl"
+      >
+        <div class="mx-auto max-w-360 flex flex-col items-center gap-3xl">
+          {{ partial "section-header.html" (dict
+            "eyebrow" .eyebrow
+            "headingId" "demos-heading"
+            "title" .title
+            "lead" .lead)
+          }}
+          <a
+            href="{{ (site.GetPage "/demos").RelPermalink }}"
+            class="btn btn-filled-white btn-md rounded-xs justify-center"
+          >
+            <span>{{ T "all_demos" }}</span>
+            <span class="btn-icon"
+              ><img
+                src="{{ (resources.Get "images/icon-arrow-right-cta.svg").RelPermalink }}"
+                alt=""
+                class="size-md"
+            /></span>
+          </a>
+        </div>
+      </section>
+    {{ end }}
+
 
     <!-- ══ Get involved ══════════════════════════════════════ -->
     <section
