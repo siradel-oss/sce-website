@@ -1,13 +1,7 @@
 @layer components {
-  /* The possible SCE assemblies, one row per need, odd rows lightly tinted to ease reading across. Left: the need. Right: the
-     route that answers it — what you bring, the families it goes through, what
-     you get. Each route is one family longer than the one above it; the family
-     it adds is outlined in yellow.
-
-     The four families keep the same slot in every row (processing is always
-     first, rendering always third). A family a route does not use leaves its
-     slot empty and the line runs across, so the rows read as one growing
-     diagram rather than four unrelated chains.
+  /* One row per need: the need, then the route (input, families, output).
+     Each family keeps its slot in every row; an unused slot is crossed by the
+     line.
 
      Three layouts, from the width the diagram needs (~872px):
      - below lg  : families wrap, each preceded by a bare arrow
@@ -93,10 +87,9 @@
     }
   }
 
-  /* The arrow into a family. Below lg it is a bare arrow. From lg it is a
-     line that starts where the previous step ends and stops at the family's
-     edge: --skip counts the empty slots it crosses, --from-source trims the
-     6px the line stays clear of the source label. */
+  /* The arrow into a family: a bare arrow below lg, a line from lg.
+     --skip counts the empty slots it crosses, --from-source trims the 6px
+     kept clear of the source label. */
   .flow-link {
     @apply flex items-center;
 
@@ -133,9 +126,7 @@
     }
   }
 
-  /* A family of the assembly. A thicker yellow outline marks the one this row
-     adds; the label turns yellow with it, and a screen-reader-only prefix
-     says it in words. */
+  /* A family of the assembly; --new marks the one this row adds. */
   .flow-node {
     @apply flex flex-col items-center gap-md pt-lg w-(--flow-node-w) h-29 rounded-md
       border border-flow-node-outline bg-flow-node text-on-primary;

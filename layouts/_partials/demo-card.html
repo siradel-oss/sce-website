@@ -1,8 +1,7 @@
-{{/* One demo, from a bundle of content/demos/.
-  Front matter: title, tagline, description, demo_url (live demo; url is
-  reserved by Hugo), repo, bricks (keys of the home page bricks) and themes
-  (i18n keys theme_*).
-  The data-* attributes feed the gallery filters (demo-filter.js).
+{{/* One demo bundle of content/demos/.
+  Front matter: title, tagline, description, demo_url (url is reserved by
+  Hugo), repo, bricks (brick keys), themes (i18n keys theme_*).
+  The data-* attributes feed demo-filter.js.
 */}}
 {{ $bricks := partial "bricks.html" . }}
 {{ $img := (.Resources.GetMatch "screenshot.*").Resize "800x webp q80" }}

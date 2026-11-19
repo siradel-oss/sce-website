@@ -1,13 +1,9 @@
 {{/* The possible SCE assemblies, one row per need.
   Params:
-  scenarios — slice of {name, icon, input, families (slice of family keys),
+  scenarios — slice of {name, icon, input, families (family keys),
   adds (optional family key), output, desc}
-  families  — map of family key -> {slot, label, visual}, built from
-  ecosystem.categories so a family is worded in exactly one place.
-  A family keeps its slot (1-4) in every row; --skip counts the empty slots the
-  arrow into it has to cross. Each row adds one family to the previous one; the
-  added family is outlined and prefixed with a screen-reader-only label, so the
-  increment does not rely on colour alone.
+  families  — map of family key -> {slot, label, visual}
+  --skip counts the empty slots the arrow into a family crosses.
 */}}
 <ol class="flow-list" role="list">
   {{ range $i, $sc := .scenarios }}
@@ -48,6 +44,8 @@
                 <img
                   src="{{ (resources.Get "images/icon-flow-direction.svg").RelPermalink }}"
                   alt=""
+                  width="9"
+                  height="9"
                   class="flow-link__arrow"
                 />
               </span>
@@ -69,9 +67,14 @@
                         class="size-full rounded-xs object-cover"
                       />
                     {{ else }}
+                      {{/* Intrinsic size read from the SVG root. */}}
+                      {{ $svg := resources.Get (printf "images/%s" .) }}
+                      {{ $dims := index (findRESubmatch `<svg[^>]*?\swidth="([\d.]+)"[^>]*?\sheight="([\d.]+)"` $svg.Content 1) 0 }}
                       <img
-                        src="{{ (resources.Get (printf "images/%s" .)).RelPermalink }}"
+                        src="{{ $svg.RelPermalink }}"
                         alt=""
+                        width="{{ math.Round (float (index $dims 1)) }}"
+                        height="{{ math.Round (float (index $dims 2)) }}"
                       />
                     {{ end }}
                   {{ end }}
@@ -92,6 +95,8 @@
           <img
             src="{{ (resources.Get "images/icon-corner-down-right.svg").RelPermalink }}"
             alt=""
+            width="18"
+            height="18"
           />
           <span>{{ $sc.output }}</span>
         </p>

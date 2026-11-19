@@ -1,15 +1,14 @@
-{{/* One of the two views that open the ecosystem section: a picture, a caption
-  and what it covers.
+{{/* One of the two views opening the ecosystem section.
   Params: image (file in assets/images), caption, tag.
 */}}
 {{ $src := resources.Get (printf "images/%s" .image) }}
-{{ $img := $src.Resize "1416x webp q80" }}
-{{ $small := $src.Resize "708x webp q80" }}
+{{ $img := $src.Resize "1416x webp q65" }}
+{{ $mid := $src.Resize "1060x webp q65" }}
+{{ $small := $src.Resize "708x webp q65" }}
 <figure class="flex flex-col overflow-hidden rounded-md bg-inverse-surface">
-  {{/* Two columns from md up, so the card is about half the viewport. */}}
   <img
     src="{{ $img.RelPermalink }}"
-    srcset="{{ $small.RelPermalink }} 708w, {{ $img.RelPermalink }} 1416w"
+    srcset="{{ $small.RelPermalink }} 708w, {{ $mid.RelPermalink }} 1060w, {{ $img.RelPermalink }} 1416w"
     sizes="(min-width: 768px) 50vw, 100vw"
     alt=""
     width="{{ $img.Width }}"

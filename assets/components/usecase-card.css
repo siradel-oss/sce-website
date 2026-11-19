@@ -1,7 +1,5 @@
 @layer components {
-  /* One family of the ecosystem. Solid violet outline, as in the Figma
-     "Component family" frame — the gradient hairline it replaces read as
-     decoration on a blue backdrop, the outline reads as a container. */
+  /* One family of the ecosystem. */
   .usecase-card {
     @apply border border-violet-500;
   }
