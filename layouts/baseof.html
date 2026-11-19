@@ -7,9 +7,7 @@
       name="description"
       content="{{ .Page.Params.description | default .Site.Params.description }}"
     />
-    {{/* The stylesheet comes from api.fontshare.com, the font files from
-      cdn.fontshare.com: open both connections before the CSS asks for them.
-    */}}
+    {{/* Stylesheet on api.fontshare.com, font files on cdn.fontshare.com. */}}
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
     <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
     <link
@@ -22,9 +20,7 @@
       type="image/svg+xml"
       href="{{ (resources.Get "favicon.svg").RelPermalink }}"
     />
-    {{/* The home page title already carries the brand, so appending the
-      suffix repeated it. Sub-pages still read "#horizon &centerdot; SCE".
-    */}}
+    {{/* The home title already carries the brand: no suffix there. */}}
     <title>
       {{- if .IsHome -}}
         {{ .Page.Title }}

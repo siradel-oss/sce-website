@@ -62,7 +62,7 @@
       }
     }
 
-    /* ---------- Focus-visible (all interactive descendants) ---------- */
+    /* ---------- Focus-visible ---------- */
     a:focus-visible,
     button:focus-visible {
       @apply outline-2 outline-offset-4 outline-secondary rounded-xs;

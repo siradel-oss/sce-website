@@ -2,8 +2,8 @@
   {{ $demos := .Pages.ByWeight }}
   {{ $bricks := partial "bricks.html" . }}
 
-  {{/* Filter groups, built from what the demos declare. The brick group shows
-    even with a single brick: it tells what the demos are built on.
+  {{/* Filter groups, built from the demos. The brick group shows even with a
+    single brick.
   */}}
   {{ $brickValues := slice }}
   {{ $themeValues := slice }}

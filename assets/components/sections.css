@@ -67,12 +67,6 @@
 }
 
 @layer components {
-  /* Fond de section. Il vivait en `style=` dans home.html, en rgba()
-     littéraux : hors charte, invisible au linter, et impossible à retrouver
-     depuis le design system. Les valeurs sont reprises à l'identique — un
-     arrêt de dégradé totalement transparent s'interpole en alpha prémultiplié,
-     donc `transparent` rend exactement ce que rendaient les arrêts noir et
-     gris d'alpha zéro qu'il remplace. */
   .backdrop-flow {
     background: var(--color-backdrop-flow);
   }

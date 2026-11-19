@@ -1,15 +1,7 @@
 {{/* Search engine and link preview metadata.
-
-  Three entities, kept apart so each keeps its own identity:
-  - Siradel, the company: only referenced by the @id siradel.com declares;
-  - the open-source organization (this site, the siradel-oss GitHub org), a
-  sub-organization of Siradel;
-  - one SoftwareSourceCode per open-source brick and per demo, published by
-  the organization. Built from projects.bricks and the content/demos/ bundles
-  so the list
-  cannot drift.
-  Ids are absolute and language-independent, so EN and FR describe the same
-  entities.
+  JSON-LD entities: Siradel (referenced by the @id siradel.com declares), the
+  open-source organization (its sub-organization), and one SoftwareSourceCode
+  per open-source brick and per demo. Ids are language-independent.
 */}}
 {{ $root := "/" | absURL }}
 {{ $desc := .Description | default site.Params.description }}
@@ -95,9 +87,7 @@
       }}
     {{ end }}
   {{ end }}
-  {{/* Demos point to the bricks they use (isBasedOn): this is what ties the
-    demo family to the engine for search engines.
-  */}}
+  {{/* Demos point to the bricks they use (isBasedOn). */}}
   {{ range (site.GetPage "/demos").Pages.ByWeight }}
     {{ $basedOn := slice }}
     {{ range .Params.bricks }}

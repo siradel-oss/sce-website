@@ -6,14 +6,13 @@
       <div
         class="relative flex flex-col min-h-137.5 overflow-hidden rounded-md bg-black"
       >
-        {{/* The picture is cropped in on its right half, the left stays black
-          so the headline keeps its contrast without a scrim. Below lg the
-          text sits over the picture, so it is dimmed instead.
+        {{/* From lg the picture fills the right half and the headline sits on
+          black; below lg it sits over the picture, dimmed.
         */}}
         {{ $hero := resources.Get "images/hero-geospatial.webp" }}
-        {{ $hero800 := $hero.Resize "800x webp q80" }}
-        {{ $hero1400 := $hero.Resize "1400x webp q80" }}
-        {{ $hero2000 := $hero.Resize "2000x webp q80" }}
+        {{ $hero800 := $hero.Resize "800x webp q70" }}
+        {{ $hero1400 := $hero.Resize "1400x webp q70" }}
+        {{ $hero2000 := $hero.Resize "2000x webp q70" }}
         <div aria-hidden="true" class="absolute inset-0 pointer-events-none">
           <img
             src="{{ $hero2000.RelPermalink }}"
@@ -159,10 +158,7 @@
           "title" .Params.flow.title
           "lead" .Params.flow.lead)
         }}
-        {{/* Families are worded once, in ecosystem.categories; the flow
-          references them by key so the two sections cannot drift apart. The
-          category's position is its slot in every assembly.
-        */}}
+        {{/* Families come from ecosystem.categories; their order is their slot. */}}
         {{ $families := dict }}
         {{ range $i, $c := .Params.ecosystem.categories }}
           {{ $families = merge $families (dict $c.key (dict
@@ -213,9 +209,6 @@
     </section>
 
     <!-- ══ Demos ═════════════════════════════════════════════ -->
-    {{/* No cards here: the demos live on the gallery page, this only leads
-      there. Wording comes from the home front matter.
-    */}}
     {{ with .Params.demos }}
       <section
         id="demos"

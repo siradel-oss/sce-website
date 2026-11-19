@@ -1,7 +1,4 @@
-{{/* The bricks of the home page, keyed by name without the "#" (horizon,
-  mc3d…), so a demo can name the bricks it uses. Bricks are worded once, in the
-  home page front matter of each language.
-*/}}
+{{/* Home page bricks keyed by name without the "#" (horizon, mc3d…). */}}
 {{ $bricks := dict }}
 {{ range site.Home.Params.projects.bricks }}
   {{ $bricks = merge $bricks (dict (strings.TrimPrefix "#" .name) .) }}
